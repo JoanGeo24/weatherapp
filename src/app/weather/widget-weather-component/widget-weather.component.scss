@@ -6,7 +6,7 @@
     justify-content: center;
     max-width: 80%;
     flex-direction: column;
-    margin: auto;
+    margin: 30px auto;
     padding: 0 20px;
   }
 
@@ -85,5 +85,14 @@
     border: none;
     background-color: #edeef2;
     height: 5px;
+  }
+
+  &__chart--wrapper {
+    margin-bottom: 30px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
   }
 }
