@@ -8,6 +8,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from "@angular/material/menu";
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {MatMenuModule} from "@angular/material/menu";
     BrowserAnimationsModule,
     MatButtonModule,
     MatMenuModule,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
