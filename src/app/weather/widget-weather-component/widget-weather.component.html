@@ -181,4 +181,18 @@
 
   </div>
 
+  <div class="widget-weather__chart--wrapper">
+    <h2>Weekly Variation</h2>
+    <div style="display: block">
+      <canvas baseChart width="750" height="400"
+              [type]="'line'"
+              [data]="lineChartData"
+              [options]="lineChartOptions"
+              [legend]="lineChartLegend">
+      </canvas>
+    </div>
+  </div>
+
 </div>
+
+<div class="widget-weather__footer">Created by Ioanna Georgiadou</div>
