@@ -1,5 +1,7 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import { WeatherService } from '../../services/weather.service';
+import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
+import {BaseChartDirective} from "ng2-charts";
 
 @Component({
   selector: 'app-widget-weather-component',
@@ -8,6 +10,8 @@ import { WeatherService } from '../../services/weather.service';
   encapsulation: ViewEncapsulation.None
 })
 export class WidgetWeatherComponent {
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+
   public weatherData: any;
   public currentTemp: any;
   public currentTempFeelsLike: any;
@@ -28,6 +32,30 @@ export class WidgetWeatherComponent {
   public listOfTempFeelLikeDay: any[] = [];
   public listOfTempFeelLikeNight: any[] = [];
 
+  public lineChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        label: 'Temperature',
+        fill: true,
+        tension: 0.5,
+        borderColor: 'rgba(189,221,167,255)',
+        backgroundColor: 'transparent'
+      }
+    ],
+  };
+  public lineChartOptions: ChartOptions<'line'> = {
+    responsive: true,
+    scales: {
+      y: {
+        display: true,
+        beginAtZero: true,
+        suggestedMax: 25,
+      },
+    }
+  };
+  public lineChartLegend = true;
 
   constructor(
     private weatherService: WeatherService,
@@ -45,8 +73,6 @@ export class WidgetWeatherComponent {
         this.currentTempFeelsLike = Math.ceil(this.weatherData?.current?.feels_like);
         this.nextDaysWeather = this.weatherData.daily;
 
-        console.log(this.weatherData);
-
         for (let temp of this.nextDaysWeather) {
           this.daysTemperatures = Math.ceil(temp.temp.day);
           this.nightsTemperatures = Math.ceil(temp.temp.night);
@@ -61,9 +87,13 @@ export class WidgetWeatherComponent {
 
         this.nextDaysWeather.forEach((element: { dt: any; }) => {
           let date = new Date(element.dt * 1000);
-          let formDate = date.getDate()+"/"+(date.getMonth()+1)+ "/"+date.getFullYear();
+          let formDate = date.getDate()+"/"+(date.getMonth()+1);
           this.listOfDates.push(formDate);
         });
+
+        this.lineChartData.labels = this.listOfDates;
+        this.lineChartData.datasets[0].data = this.listOfTempsDay;
+        this.chart.update();
       });
   }
 
