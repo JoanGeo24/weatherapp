@@ -1,0 +1,184 @@
+<div class="widget-weather__wrapper">
+  <div class="widget-weather__menu-wrapper">
+    <button (click)="onSelectNow()" [ngClass]="{'select': isSelected.now}">
+      Now
+    </button>
+
+    <button (click)="onSelectToday()" [ngClass]="{'select': isSelected.today}">
+      Today
+    </button>
+
+    <button [matMenuTriggerFor]="selectDate" [ngClass]="{'select': isSelected.date}">Select Date</button>
+    <mat-menu #selectDate="matMenu">
+      <button mat-menu-item *ngFor="let day of listOfDates; let i = index;" (click)="onSelectDate(i)">
+        {{ day }}
+      </button>
+    </mat-menu>
+
+  </div>
+
+  <div class="widget-weather__now--wrapper" *ngIf="isSelected.now">
+
+    <div class="widget-weather__temperature--wrapper">
+      <div class="widget-weather__temperature">
+        <p class="widget-weather__temperature-celsius">{{currentTemp}}°C</p>
+        <p>{{weatherData?.current?.weather[0].main + ' - ' + weatherData?.current?.weather[0].description}}</p>
+      </div>
+      <div class="icon">
+        <img class="w-icon" src="http://openweathermap.org/img/wn/{{weatherData?.current?.weather[0].icon}}@2x.png" alt="Weather icon">
+      </div>
+    </div>
+
+    <hr class="widget-weather--divider">
+
+    <div class="widget-weather__data">
+      <div class="widget-weather__data--info">
+        <p>{{currentTempFeelsLike}}°C</p>
+        <p>Feels Like</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{weatherData?.current?.wind_speed}} m/s</p>
+        <p>Wind</p>
+      </div>
+      <div class="widget-weather__data--info" *ngIf="weatherData?.current?.wind_gust === undefined">
+        Unavailable in you region
+      </div>
+      <div class="widget-weather__data--info" *ngIf="weatherData?.current?.wind_gust">
+        <p>{{weatherData?.current?.wind_gust + ' m/s'}}</p>
+        <p>Wind Gust</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{weatherData?.current?.wind_deg}}°</p>
+        <p>Wind Deg</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{weatherData?.current?.humidity}}%</p>
+        <p>Humidity</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{weatherData?.current?.pressure}} hPa</p>
+        <p>Pressure</p>
+      </div>
+    </div>
+
+    <hr class="widget-weather--divider">
+
+  </div>
+
+  <div class="widget-weather__today--wrapper" *ngIf="isSelected.today">
+
+    <div class="widget-weather__temperature--wrapper">
+      <div class="widget-weather__temperature">
+        <h1>Day</h1>
+        <p class="widget-weather__temperature-celsius">{{listOfTempsDay[0]}}°C</p>
+        <p>{{nextDaysWeather[0].weather[0].main + ' - ' + nextDaysWeather[0].weather[0].description}}</p>
+      </div>
+      <div class="widget-weather__temperature">
+        <h1>Night</h1>
+        <p class="widget-weather__temperature-celsius">{{listOfTempsNight[0]}}°C</p>
+        <p>{{nextDaysWeather[0].weather[0].main + ' - ' + nextDaysWeather[0].weather[0].description}}</p>
+      </div>
+      <div class="icon">
+        <img class="w-icon" src="http://openweathermap.org/img/wn/{{nextDaysWeather[0].weather[0].icon}}@2x.png" alt="Weather icon">
+      </div>
+    </div>
+
+    <hr class="widget-weather--divider">
+
+    <div class="widget-weather__data">
+      <div class="widget-weather__data--info">
+        <p>{{listOfTempFeelLikeDay[0]}}°C - Day</p>
+        <p>Feels Like</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{listOfTempFeelLikeNight[0]}}°C - Night</p>
+        <p>Feels Like</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{nextDaysWeather[0].wind_speed}} m/s</p>
+        <p>Wind</p>
+      </div>
+      <div class="widget-weather__data--info" *ngIf="nextDaysWeather[0].wind_gust === undefined">
+        Unavailable in you region
+      </div>
+      <div class="widget-weather__data--info" *ngIf="nextDaysWeather[0].wind_gust">
+        <p>{{nextDaysWeather[0].wind_gust + ' m/s'}}</p>
+        <p>Wind Gust</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{nextDaysWeather[0].wind_deg}}°</p>
+        <p>Wind Deg</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{nextDaysWeather[0].humidity}}%</p>
+        <p>Humidity</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{nextDaysWeather[0].pressure}} hPa</p>
+        <p>Pressure</p>
+      </div>
+    </div>
+
+    <hr class="widget-weather--divider">
+
+  </div>
+
+  <div class="widget-weather__selected-date--wrapper" *ngIf="isSelected.date">
+
+    <div class="widget-weather__temperature--wrapper">
+      <div class="widget-weather__temperature">
+        <h1>Day</h1>
+        <p class="widget-weather__temperature-celsius">{{listOfTempsDay[selectedDay]}}°C</p>
+        <p>{{nextDaysWeather[selectedDay].weather[0].main + ' - ' + nextDaysWeather[selectedDay].weather[0].description}}</p>
+      </div>
+      <div class="widget-weather__temperature">
+        <h1>Night</h1>
+        <p class="widget-weather__temperature-celsius">{{listOfTempsNight[selectedDay]}}°C</p>
+        <p>{{nextDaysWeather[selectedDay].weather[0].main + ' - ' + nextDaysWeather[selectedDay].weather[0].description}}</p>
+      </div>
+      <div class="icon">
+        <img class="w-icon" src="http://openweathermap.org/img/wn/{{nextDaysWeather[selectedDay].weather[0].icon}}@2x.png" alt="Weather icon">
+      </div>
+    </div>
+
+    <hr class="widget-weather--divider">
+
+    <div class="widget-weather__data">
+      <div class="widget-weather__data--info">
+        <p>{{listOfTempFeelLikeDay[selectedDay]}}°C - Day</p>
+        <p>Feels Like</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{listOfTempFeelLikeNight[selectedDay]}}°C - Night</p>
+        <p>Feels Like</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{nextDaysWeather[selectedDay].wind_speed}} m/s</p>
+        <p>Wind</p>
+      </div>
+      <div class="widget-weather__data--info" *ngIf="nextDaysWeather[selectedDay].wind_gust === undefined">
+        Unavailable in you region
+      </div>
+      <div class="widget-weather__data--info" *ngIf="nextDaysWeather[selectedDay].wind_gust">
+        <p>{{nextDaysWeather[selectedDay].wind_gust + ' m/s'}}</p>
+        <p>Wind Gust</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{nextDaysWeather[selectedDay].wind_deg}}°</p>
+        <p>Wind Deg</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{nextDaysWeather[selectedDay].humidity}}%</p>
+        <p>Humidity</p>
+      </div>
+      <div class="widget-weather__data--info">
+        <p>{{nextDaysWeather[selectedDay].pressure}} hPa</p>
+        <p>Pressure</p>
+      </div>
+    </div>
+
+    <hr class="widget-weather--divider">
+
+  </div>
+
+</div>
