@@ -1,5 +1,13 @@
 # Weatherapp
 
+Getting data from OpenWeatherMap Api with this project we can see the weather forecast for Thessaloniki.
+
+#Requirements before installation
+
+Application requires node version to be at least v14.15. Install the Angular CLI if you don't have it `npm install -g @angular/cli`.
+
+Install dependencies before starting `npm i`.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
 
 ## Development server
